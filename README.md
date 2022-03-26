@@ -21,11 +21,11 @@ npm install (para reconstruir los modulos de node)
 Dillinger is currently extended with the following plugins.
 Instructions on how to use them in your own application are linked below.
 
-| Paquete | README |
+| Paquete | URL |
 | ------ | ------ |
-| express | [https://www.npmjs.com/package/express][express] |
-| cors | [https://www.npmjs.com/package/cors][cors] |
-| dotenv | [https://www.npmjs.com/package/dotenv][dotenv] |
+| express | [http://expressjs.com][express] |
+| cors | [https://github.com/expressjs/cors#readme][cors] |
+| dotenv | [https://github.com/motdotla/dotenv#readme][dotenv] |
 
 
 
