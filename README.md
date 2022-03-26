@@ -18,13 +18,6 @@ npm install (para reconstruir los modulos de node)
 
 ## Paquetes utilizados
 
-- [npm express]
-- [npm cors]
-- [npm dotenv] 
-
-
-## Paquetes utilizados
-
 Dillinger is currently extended with the following plugins.
 Instructions on how to use them in your own application are linked below.
 
