@@ -1,7 +1,13 @@
 const { response } = require('express');
 
 const usuariosGet = (req, res = response) => {
-    res.json({msg: 'get api controlador'})
+    const {nombre = 'No name', page = 1, limit } = req.query;
+    res.json({
+        msg: 'get api controlador',
+        nombre,
+        page,
+        limit
+    })
 }
 
 const usuariosPost = (req, res = response) => {
@@ -15,7 +21,11 @@ const usuariosPost = (req, res = response) => {
 }
 
 const usuariosPut = (req, res = response) => {
-    res.json({msg: 'put example'})
+    const id = req.params.id;
+    res.json({
+        msg: 'put example',
+        id
+        })
 }
 
 const usuariosPatch = (req, res = response) => {
