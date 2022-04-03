@@ -16,12 +16,6 @@ const usuariosGet = (req, res = response) => {
 
 const usuariosPost = async(req, res = response) => {
 
-    const errores = validationResult(req);
-
-    if ( !errores.isEmpty()) {
-        return res.status(400).json(errores);
-    }
-
     const { nombre, correo, password, rol } = req.body; //desestructuro body
     //const { google, ...resto} = re.body; //resto va a tener todos los atributos menos google
     const usuario = new Usuario({nombre, correo, password, rol});
