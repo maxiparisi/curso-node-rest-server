@@ -2,7 +2,7 @@ const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
-const { validationResult } = require('express-validator');
+
 
 const usuariosGet = (req, res = response) => {
     const {nombre = 'No name', page = 1, limit } = req.query;
@@ -20,14 +20,6 @@ const usuariosPost = async(req, res = response) => {
     //const { google, ...resto} = re.body; //resto va a tener todos los atributos menos google
     const usuario = new Usuario({nombre, correo, password, rol});
 
-    //verificar si correo existe
-    const existeEmail = await Usuario.findOne({ correo });
-    if ( existeEmail ) {
-        return res.status(400).json({
-            msg: 'Correo ya registrado'
-        });
-    }
-
     //encriptar pass
     const salt = bcryptjs.genSaltSync(10); //dificultad de encriptado
     usuario.password = bcryptjs.hashSync(password, salt);
@@ -39,11 +31,22 @@ const usuariosPost = async(req, res = response) => {
         usuario})
 }
 
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async (req, res = response) => {
     const id = req.params.id;
+    const { password, google, correo, ...resto } = req.body;
+
+    //si quiere actualizar pass
+    if ( password ) {
+        //encriptar pass
+        const salt = bcryptjs.genSaltSync(10); //dificultad de encriptado
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate( id, resto );
+
     res.json({
         msg: 'put example',
-        id
+        usuario
         })
 }
 
