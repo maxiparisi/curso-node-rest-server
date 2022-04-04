@@ -27,7 +27,11 @@ router.put('/:id', [
     validarCampos
 ], usuariosPut)
 
-router.delete('/', usuariosDelete)
+router.delete('/:id', [
+    check('id', 'No es un id válido').isMongoId(), //valida solo el formato de ids en mongo, NO que exista en mongo
+    check('id').custom( existeUsuarioById ),
+    validarCampos
+], usuariosDelete)
 
 router.patch('/', usuariosPatch)
 

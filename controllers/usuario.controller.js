@@ -55,8 +55,11 @@ const usuariosPatch = (req, res = response) => {
     res.json({msg: 'patch example'})
 }
 
-const usuariosDelete = (req, res = response) => {
-    res.json({msg: 'delete example'})
+const usuariosDelete = async(req, res = response) => {
+    const { id } = req.params;
+    // const usuario = await Usuario.findByIdAndDelete(id); //ejemplo de borrado fisico
+    const usuario = await Usuario.findByIdAndUpdate( id, { estado: false } );
+    res.json(usuario);
 }
 
 module.exports = { 
