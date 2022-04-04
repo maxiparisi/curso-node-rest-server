@@ -1,7 +1,7 @@
 const { Router} = require('express');
 const { check } = require('express-validator');
 const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete, usuariosPatch } = require('../controllers/usuario.controller');
-const { esRolValido, existeEmail } = require('../helpers/db-validators');
+const { esRolValido, existeEmail, existeUsuarioById } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
@@ -20,7 +20,12 @@ router.post('/', [
     validarCampos
 ] ,usuariosPost)
 
-router.put('/:id', usuariosPut)
+router.put('/:id', [
+    check('id', 'No es un id válido').isMongoId(), //valida solo el formato de ids en mongo, NO que exista en mongo
+    check('id').custom( existeUsuarioById ),
+    check('rol').custom( esRolValido ),
+    validarCampos
+], usuariosPut)
 
 router.delete('/', usuariosDelete)
 
