@@ -4,14 +4,20 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 
 
-const usuariosGet = (req, res = response) => {
-    const {nombre = 'No name', page = 1, limit } = req.query;
-    res.json({
-        msg: 'get api controlador',
-        nombre,
-        page,
-        limit
-    })
+const usuariosGet = async(req, res = response) => {
+    const { limite = 5, desde = 0 } = req.query;
+
+    const query = { estado: true}
+
+    //esto es para realizar en simultaneo dos invocaciones q no dependen una de otra
+    const [total, usuarios] = await Promise.all([    //aplico desestructuracion de array, primer posicion se llamara total, segunda usuarios
+        Usuario.countDocuments( query ),
+        Usuario.find( query )
+            .skip(desde)
+            .limit(limite)
+    ])
+
+    res.json({ total, usuarios });
 }
 
 const usuariosPost = async(req, res = response) => {
@@ -26,9 +32,7 @@ const usuariosPost = async(req, res = response) => {
 
     //guardar en db
     await usuario.save();
-    res.status(201).json({
-        msg: 'post example',
-        usuario})
+    res.status(201).json(usuario);
 }
 
 const usuariosPut = async (req, res = response) => {
@@ -44,10 +48,7 @@ const usuariosPut = async (req, res = response) => {
 
     const usuario = await Usuario.findByIdAndUpdate( id, resto );
 
-    res.json({
-        msg: 'put example',
-        usuario
-        })
+    res.json(usuario);
 }
 
 const usuariosPatch = (req, res = response) => {
