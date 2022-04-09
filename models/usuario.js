@@ -32,9 +32,12 @@ const UsuarioSchema = Schema({
     }
 })
 
+//funcion para darle a la vista un modelo con atributos q quiero mostrar y ocultar otros que no, tambien renombro algun atributo
 //no puede ser funcion de flecha porque necesito apuntar al this. Una funcion normal como esta tiene referencia a la instancia
 UsuarioSchema.methods.toJSON = function() {
     const { __v, password, ...restoAtributosUsuario } = this.toObject();
+    restoAtributosUsuario.uid = restoAtributosUsuario._id;
+    delete restoAtributosUsuario._id;
     return restoAtributosUsuario;
 }
 
