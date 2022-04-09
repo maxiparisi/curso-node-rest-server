@@ -3,6 +3,8 @@ const { check } = require('express-validator');
 const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete, usuariosPatch } = require('../controllers/usuario.controller');
 const { esRolValido, existeEmail, existeUsuarioById } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
@@ -28,6 +30,9 @@ router.put('/:id', [
 ], usuariosPut)
 
 router.delete('/:id', [
+    validarJWT,
+    //esAdminRole,
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
     check('id', 'No es un id válido').isMongoId(), //valida solo el formato de ids en mongo, NO que exista en mongo
     check('id').custom( existeUsuarioById ),
     validarCampos
