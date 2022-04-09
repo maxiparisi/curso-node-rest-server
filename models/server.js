@@ -9,7 +9,8 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/users'
+        this.usuariosPath = '/api/users';
+        this.authPath = '/api/auth';
 
         //Conectar a BBDD
         this.conectarDB();
@@ -37,7 +38,8 @@ class Server {
 
     routes() {
 
-        this.app.use(this.usuariosPath, require('../routes/user.routes.js'))
+        this.app.use(this.authPath, require('../routes/auth.routes.js'));
+        this.app.use(this.usuariosPath, require('../routes/user.routes.js'));
 
     }
 
