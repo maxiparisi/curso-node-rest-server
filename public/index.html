@@ -26,13 +26,19 @@
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
+
+        var url = (window.location.hostname.includes('localhost')) ? 'http://localhost:8082/api/auth/login-google' : 
+            'https://restserver-cascara.herokuapp.com/api/auth/login-google';
+
+
+
         function handleCredentialResponse(response) {
 
            //Google token: ID_TOKEN
            console.log('id_token: ', response.credential);
            const body = { id_token: response.credential };
 
-           fetch('http://localhost:8082/api/auth/login-google', {
+           fetch(url, {
                method: 'POST',
                headers: {
                    'Content-Type': 'application/json'
