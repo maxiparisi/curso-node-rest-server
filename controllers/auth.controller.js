@@ -1,5 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const { response } = require('express');
+const res = require('express/lib/response');
 const { generarJWT } = require('../helpers/jwt-generator');
 const Usuario = require('../models/usuario');
 
@@ -44,4 +45,14 @@ const login = async(req, res = response) => {
 
 }
 
-module.exports = { login }
+const googleSignIn = async(req, res = response) => {
+    
+    const { id_token } = req.body;
+
+    res.json({    
+        msg: 'Todo bien',
+        id_token
+    })
+}
+
+module.exports = { login, googleSignIn }
